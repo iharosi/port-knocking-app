@@ -1,6 +1,6 @@
 {
   "name": "port-knocking-app",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple port knocking application built with Electron, React, and TypeScript.",
   "main": ".webpack/main",
   "scripts": {
@@ -9,6 +9,11 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx ."
+  },
+  "build": {
+    "files": [
+      ".env"
+    ]
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.4.0",
@@ -28,6 +33,7 @@
     "@typescript-eslint/parser": "^5.62.0",
     "@vercel/webpack-asset-relocator-loader": "^1.7.3",
     "css-loader": "^6.11.0",
+    "dotenv": "^16.4.5",
     "electron": "30.0.6",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",

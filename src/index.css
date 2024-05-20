@@ -1,6 +1,13 @@
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color); /* Set background color variable */
+  color: var(--text-color); /* Set text color variable */
+  min-height: 100vh; /* Ensure the body takes up the full height of the viewport */
+}
+
+#app {
   margin: auto;
   max-width: 38rem;
   padding: 2rem;

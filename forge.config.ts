@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerSquirrel } from '@electron-forge/maker-squirrel';
 import { MakerZIP } from '@electron-forge/maker-zip';
@@ -12,10 +13,14 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
 
+// Load environment variables
+dotenv.config();
+
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
     osxSign: {},
+    appBundleId: process.env.APP_BUNDLE_ID
   },
   rebuildConfig: {},
   makers: [
