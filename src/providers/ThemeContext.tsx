@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import { IpcRendererEvent } from 'electron';
 import { ThemeProvider as MuiThemeProvider, Theme } from '@mui/material/styles';
-import { lightTheme, darkTheme } from './themes';
+import { lightTheme, darkTheme } from '../styles/themes';
 
 interface ThemeContextType {
   isDarkMode: boolean;
@@ -18,7 +19,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
   useEffect(() => {
     if (window.electronTheme) {
-      const handleThemeChange = (event: any, isDark: boolean) => {
+      const handleThemeChange = (event: IpcRendererEvent, isDark: boolean) => {
         setIsDarkMode(isDark);
       };
 

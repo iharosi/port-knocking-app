@@ -1,8 +1,8 @@
-import React from 'react';
+import { FC } from 'react';
 import PortKnockingApp from './PortKnocker';
-import ThemeProvider from './ThemeContext';
+import ThemeProvider from '../providers/ThemeContext';
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   return (
     <ThemeProvider>
       <PortKnockingApp />

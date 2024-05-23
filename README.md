@@ -1,6 +1,6 @@
 # Port Knocking App
 
-A simple port knocking application built with Electron, React, and TypeScript.
+A user-friendly application that performs port knocking by sending UDP packets to specified ports then checks the status of a TCP port to verify its availability. Built with Electron, React, and TypeScript.
 
 ![App Screenshot](https://github.com/iharosi/port-knocking-app/blob/main/port-knocking-app.png?raw=true)
 
