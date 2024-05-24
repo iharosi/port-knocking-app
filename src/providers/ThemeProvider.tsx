@@ -8,13 +8,15 @@ interface ThemeContextType {
   setIsDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+export const ThemeContext = createContext<ThemeContextType | undefined>(
+  undefined,
+);
 
 interface ThemeProviderProps {
   children: ReactNode;
 }
 
-const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   useEffect(() => {
@@ -39,17 +41,16 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   // Set CSS variables based on the theme
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('--background-color', theme.palette.background.default);
+    root.style.setProperty(
+      '--background-color',
+      theme.palette.background.default,
+    );
     root.style.setProperty('--text-color', theme.palette.text.primary);
   }, [theme]);
 
   return (
     <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
-      <MuiThemeProvider theme={theme}>
-        {children}
-      </MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
-
-export default ThemeProvider;

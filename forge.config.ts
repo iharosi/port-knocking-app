@@ -19,8 +19,9 @@ dotenv.config();
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    osxSign: {},
-    appBundleId: process.env.APP_BUNDLE_ID
+    osxSign: {
+      identity: process.env.IDENTITY,
+    },
   },
   rebuildConfig: {},
   makers: [
@@ -28,7 +29,7 @@ const config: ForgeConfig = {
     new MakerZIP({}),
     new MakerRpm({}),
     new MakerDeb({}),
-    new MakerDMG({ format: 'ULFO' }, ['darwin'])
+    new MakerDMG({ format: 'ULFO' }, ['darwin']),
   ],
   plugins: [
     new AutoUnpackNativesPlugin({}),
@@ -68,13 +69,13 @@ const config: ForgeConfig = {
       config: {
         repository: {
           owner: 'iharosi',
-          name: 'port-knocking-app'
+          name: 'port-knocking-app',
         },
         prerelease: false,
-        draft: true
-      }
-    }
-  ]
+        draft: true,
+      },
+    },
+  ],
 };
 
 export default config;
