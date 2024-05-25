@@ -21,7 +21,8 @@ export type ValidationError = {
 // Define action types for the reducer
 export type Action =
   | { type: 'SET_FIELD'; field: keyof FormData; value: string | number }
-  | { type: 'SET_ERRORS'; errors: ValidationError };
+  | { type: 'SET_ERRORS'; errors: ValidationError }
+  | { type: 'LOAD_CONFIG'; config: FormData };
 
 // Define the initial state
 export const initialState: {
@@ -69,6 +70,12 @@ export const formReducer = (state: typeof initialState, action: Action) => {
       return {
         ...state,
         errors: action.errors,
+      };
+    case 'LOAD_CONFIG':
+      return {
+        ...state,
+        formData: action.config,
+        errors: {},
       };
     default:
       return state;

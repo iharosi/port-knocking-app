@@ -2,6 +2,7 @@ import { ChangeEvent, FC, FormEvent, useEffect, useState } from 'react';
 import { Typography, Grid } from '@mui/material';
 import { StatusDisplay } from './StatusDisplay';
 import { FormFields } from './FormFields';
+import { ConfigManager } from './ConfigManager';
 import { FormData, useFormReducer } from '../hooks';
 import { sendKnock } from '../utils';
 
@@ -46,6 +47,11 @@ export const PortKnockingApp: FC = () => {
     }
   };
 
+  // Load a configuration into the form
+  const handleConfigLoad = (config: FormData) => {
+    dispatch({ type: 'LOAD_CONFIG', config });
+  };
+
   return (
     <Grid container columnSpacing={2}>
       <Grid item xs={12}>
@@ -56,6 +62,23 @@ export const PortKnockingApp: FC = () => {
         >
           Port Knocking App
         </Typography>
+      </Grid>
+      <Grid
+        item
+        xs={12}
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: '8px',
+        }}
+      >
+        <ConfigManager
+          formData={formData}
+          onConfigLoad={handleConfigLoad}
+          validateForm={validateForm}
+          handleError={handleError}
+        />
       </Grid>
       <Grid item xs={6}>
         <FormFields
