@@ -14,7 +14,7 @@ export const checkTcpPort = ({ serverAddress, tcpPort, setStatus }: Prop) => {
   tcpClient.setTimeout(3000); // Timeout in milliseconds
   tcpClient.on('connect', () => {
     logger(`TCP Port ${tcpPort} is open.`);
-    tcpClient.end();
+    tcpClient.destroy();
   });
   tcpClient.on('timeout', () => {
     logger(`TCP Port ${tcpPort} is closed or unreachable.`);

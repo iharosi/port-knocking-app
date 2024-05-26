@@ -1,4 +1,7 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
+import * as remoteMain from '@electron/remote/main';
+
+remoteMain.initialize();
 
 // Load environment variables based on NODE_ENV
 const isDevEnv = process.env.NODE_ENV === 'development';
@@ -29,6 +32,8 @@ const createWindow = (): void => {
     },
     autoHideMenuBar: true,
   });
+
+  remoteMain.enable(mainWindow.webContents);
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

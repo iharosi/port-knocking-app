@@ -9,9 +9,11 @@ import {
   DialogTitle,
   TextField,
   Button,
+  Tooltip,
 } from '@mui/material';
 import { Save as SaveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 import { FormData } from '../hooks';
+import AppLauncherButton from './AppLauncher';
 
 interface ConfigManagerProps {
   formData: FormData;
@@ -31,6 +33,7 @@ export const ConfigManager: FC<ConfigManagerProps> = ({
   );
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedConfig, setSelectedConfig] = useState<string>('');
+  const isDeleteButtonDisabled = !selectedConfig;
 
   useEffect(() => {
     loadSavedConfigs();
@@ -106,16 +109,21 @@ export const ConfigManager: FC<ConfigManagerProps> = ({
           </MenuItem>
         ))}
       </TextField>
-      <IconButton color="primary" onClick={saveConfig}>
-        <SaveIcon />
-      </IconButton>
-      <IconButton
-        color="secondary"
-        onClick={handleDeleteDialogOpen}
-        disabled={!selectedConfig}
-      >
-        <DeleteIcon />
-      </IconButton>
+      <Tooltip title="Save" placement="top">
+        <IconButton color="primary" onClick={saveConfig}>
+          <SaveIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Delete" placement="top">
+        <IconButton
+          color="error"
+          onClick={handleDeleteDialogOpen}
+          disabled={isDeleteButtonDisabled}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+      <AppLauncherButton />
       <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
