@@ -18,9 +18,6 @@ dotenv.config();
 const config: ForgeConfig = {
   packagerConfig: {
     asar: true,
-    osxSign: {
-      identity: process.env.IDENTITY,
-    },
   },
   rebuildConfig: {},
   makers: [
@@ -66,7 +63,7 @@ const config: ForgeConfig = {
       name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: 'iharosi',
+          owner: process.env.IDENTITY,
           name: 'port-knocking-app',
         },
         prerelease: false,

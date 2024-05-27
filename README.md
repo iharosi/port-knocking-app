@@ -26,7 +26,7 @@ Run the application:
 npm start
 ```
 
-## Publish electron app
+## Generate macOS electron app
 
 For a standalone Mac distributable generate a Self-Signed Certificate in Keychain Access:
 
@@ -37,6 +37,8 @@ For a standalone Mac distributable generate a Self-Signed Certificate in Keychai
 - Name: My Self-Signed Certificate
 - Identity Type: Self Signed Root
 - Certificate Type: Code Signing
+- Extension: Key usage, Critical: YES, Usage: Digital Signature
+- Extension: Extended Key usage, Critical: YES, Purpose #1: Code Signing
 
 Add the following line to your `.env` file:
 
@@ -47,16 +49,10 @@ IDENTITY=My Self-Signed Certificate
 Package your application (this will sign the app with your self-signed certificate):
 
 ```bash
-npm run package -- --arch="universal"
+npm run package -- --platform=darwin --arch=universal
 ```
 
-Alternatively, you can run code sign directly from the command line:
-
-```bash
-npx electron-osx-sign ./out/port-knocking-app-darwin-universal/port-knocking-app.app --identity="My Self-Signed Certificate"
-```
-
-or with the built-in macOS command:
+Codesign your macOS app:
 
 ```bash
 codesign --deep --force --verify --verbose --sign "My Self-Signed Certificate" ./out/port-knocking-app-darwin-universal/port-knocking-app.app
@@ -68,10 +64,10 @@ After signing, it's good practice to verify the signature to ensure it's correct
 codesign -dv --verbose=4 ./out/port-knocking-app-darwin-universal/port-knocking-app.app
 ```
 
-Publish the application to the publish targets defined in `forge.config.ts`:
+Create the app dmg:
 
 ```bash
-npm run publish
+npm run make -- --platform=darwin --arch=universal --skip-package
 ```
 
 ## Contributing

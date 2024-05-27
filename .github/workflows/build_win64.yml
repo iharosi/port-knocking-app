@@ -1,0 +1,33 @@
+name: Build Win64 artifact
+
+on:
+  workflow_call:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build-windows:
+    name: Build Win64 artifact
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build for Windows
+        run: npm run make -- --platform=win32 --arch=x64
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: port-knocking-app-win64-installer
+          path: out/make/*

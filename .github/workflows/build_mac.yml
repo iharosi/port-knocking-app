@@ -1,0 +1,67 @@
+name: Build macOS artifact
+
+on:
+  workflow_call:
+    secrets:
+      CERT_P12_BASE64:
+        required: true
+      CERT_PASS:
+        required: true
+
+env:
+  IDENTITY: ${{ vars.IDENTITY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build-macos:
+    name: Build macOS artifact
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare certificate
+        run: |
+          echo "${{ secrets.CERT_P12_BASE64 }}" | base64 --decode > ./cert.p12
+          openssl pkcs12 -in ./cert.p12 -clcerts -nokeys -out ./cert.crt -passin pass:"${{ secrets.CERT_PASS }}"
+
+      - name: Install certificate
+        run: sudo security import ./cert.p12 -k /Library/Keychains/System.keychain -P ${{ secrets.CERT_PASS }} -T /usr/bin/codesign -T /usr/bin/security
+
+      - name: Trust certificate
+        run: sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ./cert.crt
+
+      - name: Check for valid signing certificate
+        run: security find-identity -v
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Python 3.11.4
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.4'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Make binary for macOS
+        run: npm run package -- --platform=darwin --arch=universal
+
+      - name: Codesign macOS binary
+        run: codesign --deep --force --verify --verbose --sign "${{ vars.IDENTITY }}" ./out/port-knocking-app-darwin-universal/port-knocking-app.app
+
+      - name: Verify codesign
+        run: codesign -dv --verbose=4 ./out/port-knocking-app-darwin-universal/port-knocking-app.app
+
+      - name: Package binary for macOS
+        run: npm run make -- --platform=darwin --arch=universal --skip-package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: port-knocking-app-macOS-universal
+          path: out/make/*

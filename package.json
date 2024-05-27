@@ -1,6 +1,6 @@
 {
   "name": "port-knocking-app",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "A simple port knocking application built with Electron, React, and TypeScript.",
   "main": ".webpack/main",
   "scripts": {
@@ -9,7 +9,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:mac": "electron-forge make --platform=darwin --arch=universal",
+    "build:win": "electron-forge make --platform=win32 --arch=x64"
   },
   "build": {
     "files": [
